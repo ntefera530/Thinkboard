@@ -16,17 +16,19 @@ const HomePage = () => {
     const fetchNotes = async () => {
       try {
         const response = await instance.get('/notes');
-        console.log(response.data);
+
         setNotes(response.data);
         //console.log(notes.length); THIS IS INCORRECT, IT WILL ALWAYS RETURN 0
         setIsRateLimited(false);
       } 
       catch (error) { 
-        console.error('An error occurred while fetching notes:', error);
+        
         if (error.response.status === 429) {
+          console.error('No many requests to fetch notes', error);
           setIsRateLimited(true);
         } else {
-          toast.error('Failed to fetch notes. Please try again later.');
+          //Dont want to toast error, if there are no notes created yet
+          //toast.error('Failed to fetch notes. Please try again later.');
         }
       } finally {
         setLoading(false);
