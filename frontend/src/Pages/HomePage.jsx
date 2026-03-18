@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../Components/Navbar'
 import RateLimit from '../Components/RateLimit';
-import axios from 'axios';
-import toast from 'react-hot-toast';
 import NoteCard from '../Components/NoteCard';
 import instance from '../lib/axios';
 import NotesNotFound from '../Components/NotesNotFound';
@@ -16,49 +14,48 @@ const HomePage = () => {
     const fetchNotes = async () => {
       try {
         const response = await instance.get('/notes');
-
         setNotes(response.data);
-        //console.log(notes.length); THIS IS INCORRECT, IT WILL ALWAYS RETURN 0
         setIsRateLimited(false);
-      } 
-      catch (error) { 
-        
-        if (error.response.status === 429) {
-          console.error('No many requests to fetch notes', error);
-          setIsRateLimited(true);
-        } else {
-          //Dont want to toast error, if there are no notes created yet
-          //toast.error('Failed to fetch notes. Please try again later.');
-        }
+      } catch (error) {
+        if (error.response?.status === 429) setIsRateLimited(true);
       } finally {
         setLoading(false);
       }
     };
-
     fetchNotes();
-  },[]);
+  }, []);
 
   return (
-    <div className='min-h-screen'>
-      <Navbar/>
+    <div className="min-h-screen">
+      <Navbar />
       {isRateLimited && <RateLimit />}
 
-      <div className= "max-w-7xl mx-auto p-4 mt-6">
-        {loading && <div className="text-center text-primary py-10">Loading notes...</div>}
+      <div className="max-w-5xl mx-auto px-6 py-10 page-enter">
+        {!loading && notes.length > 0 && !isRateLimited && (
+          <div className="flex items-center gap-3 mb-7">
+            <h2 className="font-display text-2xl font-normal text-base-content">Your Notes</h2>
+            <span className="badge badge-neutral badge-outline">{notes.length}</span>
+          </div>
+        )}
 
-        {notes.length === 0 && !isRateLimited && <NotesNotFound/>}
-        {notes.length > 0 &&  !isRateLimited && (
-          <div className= " grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">  
+        {loading && (
+          <div className="flex justify-center pt-20">
+            <span className="loading loading-spinner loading-md text-neutral" />
+          </div>
+        )}
+
+        {!loading && notes.length === 0 && !isRateLimited && <NotesNotFound />}
+
+        {!loading && notes.length > 0 && !isRateLimited && (
+          <div className="note-grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {notes.map((note) => (
-              <div>
-                <NoteCard key= {note._id} note={note} setNotes={setNotes}/>
-              </div>
+              <NoteCard key={note._id} note={note} setNotes={setNotes} />
             ))}
           </div>
         )}
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default HomePage
+export default HomePage;
