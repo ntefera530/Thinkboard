@@ -39,8 +39,6 @@ Create a `.env` file inside `backend/`:
 
 ```env
 MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/thinkboard
-UPSTASH_REDIS_REST_URL=https://your-upstash-url.upstash.io
-UPSTASH_REDIS_REST_TOKEN=your-upstash-token
 PORT=5001
 NODE_ENV=development
 ```
