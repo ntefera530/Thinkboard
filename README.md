@@ -37,7 +37,7 @@ cp .env.example .env
 
 ### 3. Start the app
 ```bash
-docker compose up --build
+docker compose up -d --build
 ```
 
 Open [http://localhost:5001](http://localhost:5001)
