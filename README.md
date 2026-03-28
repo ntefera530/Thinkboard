@@ -1,11 +1,11 @@
-# ThinkBoard
 
-A full-stack notes app for creating, editing, and deleting notes. Built with the MERN stack and rate limiting via Upstash Redis.
+A full-stack notes app for creating, editing, and deleting notes. Built with the MERN stack.
 
 ![Node.js](https://img.shields.io/badge/Node.js-18+-339933?style=flat&logo=node.js&logoColor=white)
 ![React](https://img.shields.io/badge/React-19-61DAFB?style=flat&logo=react&logoColor=black)
-![MongoDB](https://img.shields.io/badge/MongoDB-Atlas-47A248?style=flat&logo=mongodb&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-Local-47A248?style=flat&logo=mongodb&logoColor=white)
 ![Express](https://img.shields.io/badge/Express-4-000000?style=flat&logo=express&logoColor=white)
+![Docker](https://img.shields.io/badge/Docker-Compose-2496ED?style=flat&logo=docker&logoColor=white)
 
 ---
 
@@ -15,17 +15,14 @@ A full-stack notes app for creating, editing, and deleting notes. Built with the
 |---|---|
 | Frontend | React 19, Vite, Tailwind CSS, DaisyUI |
 | Backend | Node.js, Express 4 |
-| Database | MongoDB (Mongoose) |
-| Rate Limiting | Upstash Redis |
+| Database | MongoDB (local, via Docker) |
 
 ---
 
 ## Getting Started
 
 ### Prerequisites
-- Node.js 18+
-- [MongoDB Atlas](https://www.mongodb.com/atlas) cluster (free tier works)
-- [Upstash](https://upstash.com) Redis database (free tier works)
+- [Docker Desktop](https://www.docker.com/products/docker-desktop)
 
 ### 1. Clone the repo
 ```bash
@@ -34,27 +31,24 @@ cd thinkboard
 ```
 
 ### 2. Set up environment variables
-
-Create a `.env` file inside `backend/`:
-
-```env
-MONGO_URI=mongodb+srv://<username>:<password>@cluster.mongodb.net/thinkboard
-PORT=5001
-NODE_ENV=development
-```
-
-### 3. Install and run
-
 ```bash
-# Install dependencies
-cd backend && npm install
-cd ../frontend && npm install
-
-# Start backend (port 5001)
-cd backend && npm run dev
-
-# Start frontend (port 5173)
-cd frontend && npm run dev
+cp .env.example .env
 ```
 
-Open [http://localhost:5173](http://localhost:5173)
+### 3. Start the app
+```bash
+docker compose up --build
+```
+
+Open [http://localhost:5001](http://localhost:5001)
+
+---
+
+## Useful Commands
+
+| Command | Description |
+|---|---|
+| `docker compose up --build` | First run, or after code changes |
+| `docker compose up` | Start the app |
+| `docker compose down` | Stop the app |
+| `docker compose down -v` | Stop and reset the database |
